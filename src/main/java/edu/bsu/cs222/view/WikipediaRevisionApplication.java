@@ -12,7 +12,7 @@ import java.net.*;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
-public class WikipediaRevisionApplication extends Application {
+public class WikipediaRevisionApplication extends Application{
 
     public static void main(String[] args) {
         WikipediaRevisionApplication revisionApplication = new WikipediaRevisionApplication();
@@ -27,12 +27,11 @@ public class WikipediaRevisionApplication extends Application {
     }
 
     private String getLatestRevisionOf(String articleTitle) throws IOException {
+        String encodedArticleTitle = URLEncoder.encode(articleTitle, Charset.defaultCharset());
         String urlString = String.format("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvprop=timestamp|user&rvlimit=30&redirects",
-                articleTitle);
-        String encodedUrlString = URLEncoder.encode(urlString, Charset.defaultCharset());
-//        String encodedUrlString = URLEncoder.encode(articleTitle, Charset.defaultCharset());
+                encodedArticleTitle);
         try {
-            URL url = new URL(encodedUrlString);
+            URL url = new URL(urlString);
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("User-Agent",
                     "RevisionParser/0.1 (karogers3@bsu.edu; nplian@bsu.edu)");
