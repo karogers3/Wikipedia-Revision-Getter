@@ -2,8 +2,13 @@ package edu.bsu.cs222.view;
 
 import edu.bsu.cs222.model.RevisionParser;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -11,8 +16,14 @@ import java.io.InputStream;
 import java.net.*;
 import java.nio.charset.Charset;
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class WikipediaRevisionApplication extends Application{
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final Label label = new Label();
+    private final Button button = new Button();
+    private final TextField textField = new TextField();
 
     public static void main(String[] args) {
         WikipediaRevisionApplication revisionApplication = new WikipediaRevisionApplication();
@@ -51,7 +62,37 @@ public class WikipediaRevisionApplication extends Application{
     }
 
     private Parent makeUI() {
-        return null;
+        button.setOnAction((event) ->{
+            button.setDisable(true);
+            textField.setDisable(true);
+
+            executor.execute(()->{
+                String text = textField.getText();
+                int value = Integer.parseInt(text);
+                RevisionParser parser = new RevisionParser();
+                boolean result = parser.parse(value);
+
+                Platform.runLater(()->{
+                    if (result){
+                        label.setText("Searching...");
+                    }else{
+                        label.setText("Error..");
+                    }
+                    button.setDisable(false);
+                    textField.setDisable(false);
+                });
+
+            });
+
+
+        });
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(
+                textField,
+                button,
+                label
+        );
+        return vbox;
     }
 
 
