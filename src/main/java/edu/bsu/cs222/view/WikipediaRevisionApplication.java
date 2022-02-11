@@ -19,7 +19,7 @@ import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class WikipediaRevisionApplication extends Application{
+public class WikipediaRevisionApplication { // extends Application
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Label label = new Label();
     private final Button button = new Button();
@@ -55,45 +55,44 @@ public class WikipediaRevisionApplication extends Application{
         }
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setScene(new Scene(makeUI()));
-        primaryStage.show();
-    }
-
-    private Parent makeUI() {
-        button.setOnAction((event) ->{
-            button.setDisable(true);
-            textField.setDisable(true);
-
-            executor.execute(()->{
-                String text = textField.getText();
-                int value = Integer.parseInt(text);
-                RevisionParser parser = new RevisionParser();
-                boolean result = parser.parse(value);
-
-                Platform.runLater(()->{
-                    if (result){
-                        label.setText("Searching...");
-                    }else{
-                        label.setText("Error..");
-                    }
-                    button.setDisable(false);
-                    textField.setDisable(false);
-                });
-
-            });
-
-
-        });
-        VBox vbox = new VBox();
-        vbox.getChildren().addAll(
-                textField,
-                button,
-                label
-        );
-        return vbox;
-    }
-
-
+//    @Override
+//    public void start(Stage primaryStage) throws Exception {
+//        primaryStage.setScene(new Scene(makeUI()));
+//        primaryStage.show();
+//    }
+//
+//    private Parent makeUI() {
+//        button.setOnAction((event) ->{
+//            button.setDisable(true);
+//            textField.setDisable(true);
+//
+//            executor.execute(()->{
+//                String articleTitle = textField.getText();
+//                RevisionParser parser = new RevisionParser();
+//                boolean result = parser.parse(value);
+//
+//                Platform.runLater(()->{
+//                    if (result){
+//                        label.setText("Searching...");
+//                    }else{
+//                        label.setText("Error..");
+//                    }
+//                    button.setDisable(false);
+//                    textField.setDisable(false);
+//                });
+//
+//            });
+//
+//
+//        });
+//        VBox vbox = new VBox();
+//        vbox.getChildren().addAll(
+//                textField,
+//                button,
+//                label
+//        );
+//        return vbox;
+//    }
+//
+//
 }

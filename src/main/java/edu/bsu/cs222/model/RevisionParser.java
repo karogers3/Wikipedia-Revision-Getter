@@ -12,7 +12,7 @@ public class RevisionParser {
 
     public String parse(InputStream testDataStream) throws IOException {
         JSONArray result = (JSONArray) JsonPath.read(testDataStream, "$..user");
-//        List<Revision> revisionList = new ArrayList<Revision>;
+        List<Revision> revisionList = new ArrayList<Revision>();
         Revision revision = new Revision(null, result.get(0).toString());
         return revision.getUsername();
     }
