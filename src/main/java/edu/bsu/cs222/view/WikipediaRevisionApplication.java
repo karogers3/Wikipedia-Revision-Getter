@@ -30,6 +30,7 @@ public class WikipediaRevisionApplication extends Application {
         String urlString = String.format("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvprop=timestamp|user&rvlimit=30&redirects",
                 articleTitle);
         String encodedUrlString = URLEncoder.encode(urlString, Charset.defaultCharset());
+//        String encodedUrlString = URLEncoder.encode(articleTitle, Charset.defaultCharset());
         try {
             URL url = new URL(encodedUrlString);
             URLConnection connection = url.openConnection();
