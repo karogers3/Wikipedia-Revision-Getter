@@ -1,5 +1,7 @@
 package edu.bsu.cs222.view;
 
+import edu.bsu.cs222.model.InputStreamReader;
+import edu.bsu.cs222.model.Revision;
 import edu.bsu.cs222.model.RevisionParser;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -47,9 +50,11 @@ public class WikipediaRevisionApplication { // extends Application
             connection.setRequestProperty("User-Agent",
                     "RevisionParser/0.1 (karogers3@bsu.edu; nplian@bsu.edu)");
             InputStream inputStream = connection.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader();
+            String dataString = inputStreamReader.makeString(inputStream);
             RevisionParser parser = new RevisionParser();
-            String name = parser.parse(inputStream);
-            return name;
+            List<Revision> revisionList = parser.parse(dataString);
+            return revisionList.get(0).getUsername();
         } catch (MalformedURLException malformedURLException) {
             throw new RuntimeException(malformedURLException);
         }
