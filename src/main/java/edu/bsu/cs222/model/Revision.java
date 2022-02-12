@@ -1,10 +1,12 @@
 package edu.bsu.cs222.model;
 
-public class Revision {
-    private final String timestamp;
-    private final String username;
+import java.util.Date;
 
-    public Revision(String timestamp, String username) {
+public class Revision {
+    private final String username;
+    private final Date timestamp;
+
+    public Revision(Date timestamp, String username) {
         this.timestamp = timestamp;
         this.username = username;
     }
@@ -12,7 +14,7 @@ public class Revision {
     public String getUsername() {
         return username;
     }
-    public String getTimestamp() {return timestamp;
+    public Date getTimestamp() {return timestamp;
     }
 
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class RevisionParserTest {
@@ -12,6 +13,7 @@ public class RevisionParserTest {
     private final InputStreamReader inputStreamReader = new InputStreamReader();
     private final String dataString = inputStreamReader.makeString(testDataStream);
     private final List<Revision> revisionList = parser.parse(dataString);
+    SimpleDateFormat timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     public RevisionParserTest() {
     }
@@ -23,7 +25,7 @@ public class RevisionParserTest {
 
     @Test
     public void testGetTimeStampOfFirstRevision() {
-        Assertions.assertEquals("2021-12-04T18:29:33Z", revisionList.get(0).getTimestamp());
+        Assertions.assertEquals("2021-12-04T18:29:33Z", timeStamp.format(revisionList.get(0).getTimestamp()));
     }
 
     @Test
@@ -33,6 +35,6 @@ public class RevisionParserTest {
 
     @Test
     public void testGetTimeStampOfLastRevision() {
-        Assertions.assertEquals("2020-06-17T22:42:45Z", revisionList.get(revisionList.size()-1).getTimestamp());
+        Assertions.assertEquals("2020-06-17T22:42:45Z", timeStamp.format(revisionList.get(revisionList.size()-1).getTimestamp()));
     }
 }
