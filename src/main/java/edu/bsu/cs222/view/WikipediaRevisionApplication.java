@@ -26,26 +26,30 @@ public class WikipediaRevisionApplication { // extends Application
 //    private final Button button = new Button();
 //    private final TextField textField = new TextField();
 
+    //TODO: Make this a JavaFX GUI!
+
     public static void main(String[] args) {
         WikipediaRevisionApplication revisionApplication = new WikipediaRevisionApplication();
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         try {
-            String name = revisionApplication.getLatestRevisionOf(line);
-            System.out.println(name);
+            StringBuilder revisions = revisionApplication.getLatestRevisionOf(line);
+            System.out.println(revisions);
         } catch (IOException ioException) {
             System.err.println("Network connection Problem: " + ioException.getMessage());
         }
     }
 
-    private String getLatestRevisionOf(String articleTitle) throws IOException {
+    private StringBuilder getLatestRevisionOf(String articleTitle) throws IOException {
         URLBuilder urlBuilder = new URLBuilder();
         String urlString = urlBuilder.makeURL(articleTitle);
         WikiPageFetcher wikiPageFetcher = new WikiPageFetcher();
         String dataString = wikiPageFetcher.getWikiPageInfo(urlString);
         RevisionParser parser = new RevisionParser();
         List<Revision> revisionList = parser.parse(dataString);
-        return revisionList.get(0).getUsername();
+        RevisionListSummary revisionListSummary = new RevisionListSummary();
+        StringBuilder revisions = revisionListSummary.UpToThirtyRevisions(revisionList);
+        return revisions;
     }
 
 //    @Override
