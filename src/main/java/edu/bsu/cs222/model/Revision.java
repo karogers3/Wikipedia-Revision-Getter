@@ -1,5 +1,6 @@
 package edu.bsu.cs222.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Revision {
@@ -12,9 +13,13 @@ public class Revision {
     }
 
     public String getUsername() {
+
         return username;
     }
-    public Date getTimestamp() {return timestamp;
+
+    public String getTimestamp() {
+        SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        return timestampFormat.format(timestamp);
     }
 
 

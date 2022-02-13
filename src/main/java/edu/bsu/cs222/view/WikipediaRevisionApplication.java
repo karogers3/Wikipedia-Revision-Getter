@@ -3,6 +3,7 @@ package edu.bsu.cs222.view;
 import edu.bsu.cs222.model.InputStreamReader;
 import edu.bsu.cs222.model.Revision;
 import edu.bsu.cs222.model.RevisionParser;
+import edu.bsu.cs222.model.URLBuilder;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -41,9 +42,8 @@ public class WikipediaRevisionApplication { // extends Application
     }
 
     private String getLatestRevisionOf(String articleTitle) throws IOException {
-        String encodedArticleTitle = URLEncoder.encode(articleTitle, Charset.defaultCharset());
-        String urlString = String.format("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=%s&rvprop=timestamp|user&rvlimit=30&redirects",
-                encodedArticleTitle);
+        URLBuilder urlBuilder = new URLBuilder();
+        String urlString = urlBuilder.makeURL(articleTitle);
         try {
             URL url = new URL(urlString);
             URLConnection connection = url.openConnection();
