@@ -4,18 +4,30 @@ import java.util.List;
 
 public class RevisionListSummary {
 
-    //TODO: Find length of longest username in a revision list.
-
-    public StringBuilder UpToThirtyRevisions(List<Revision> revisionList) {
+    public StringBuilder summaryOfRevisions(List<Revision> revisionList) {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 1;
+        int maxLength = sizeOfLongestUsername(revisionList) + 6; // length of "User: " = 6
+        String userNameFormat = "%-" + maxLength + "s";
         for (Revision revision : revisionList) {
-            String revisionString = String.format("\n%-2d. %s %-31s\n", i, "User: " + revision.getUsername(),
-                    "Timestamp: " + revision.getTimestamp());
+            // length of "Timestamp: " + "yyyy.MM.ddTHH:mm:ssZ" = 31
+            String revisionString = String.format("\n%-2d. " + userNameFormat + " %-31s\n", i, "User: " +
+                            revision.getUsername(), "Timestamp: " + revision.getTimestamp());
             stringBuilder.append(revisionString);
             i++;
         }
         return stringBuilder;
+    }
+
+    private int sizeOfLongestUsername(List<Revision> revisionList) {
+        int maxLength = 0;
+        for (Revision revision : revisionList) {
+            int revisionLength = revision.getUsername().length();
+            if (maxLength < revisionLength) {
+                maxLength = revisionLength;
+            }
+        }
+        return maxLength;
     }
 
 }

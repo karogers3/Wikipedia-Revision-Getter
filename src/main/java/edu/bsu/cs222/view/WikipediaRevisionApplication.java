@@ -1,24 +1,10 @@
 package edu.bsu.cs222.view;
 
 import edu.bsu.cs222.model.*;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.*;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class WikipediaRevisionApplication { // extends Application
 //    private final Executor executor = Executors.newSingleThreadExecutor();
@@ -48,8 +34,7 @@ public class WikipediaRevisionApplication { // extends Application
         RevisionParser parser = new RevisionParser();
         List<Revision> revisionList = parser.parse(dataString);
         RevisionListSummary revisionListSummary = new RevisionListSummary();
-        StringBuilder revisions = revisionListSummary.UpToThirtyRevisions(revisionList);
-        return revisions;
+        return revisionListSummary.summaryOfRevisions(revisionList);
     }
 
 //    @Override
