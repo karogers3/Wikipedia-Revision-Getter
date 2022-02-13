@@ -1,9 +1,6 @@
 package edu.bsu.cs222.view;
 
-import edu.bsu.cs222.model.InputStreamReader;
-import edu.bsu.cs222.model.Revision;
-import edu.bsu.cs222.model.RevisionParser;
-import edu.bsu.cs222.model.URLBuilder;
+import edu.bsu.cs222.model.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -24,10 +21,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class WikipediaRevisionApplication { // extends Application
-    private final Executor executor = Executors.newSingleThreadExecutor();
-    private final Label label = new Label();
-    private final Button button = new Button();
-    private final TextField textField = new TextField();
+//    private final Executor executor = Executors.newSingleThreadExecutor();
+//    private final Label label = new Label();
+//    private final Button button = new Button();
+//    private final TextField textField = new TextField();
 
     public static void main(String[] args) {
         WikipediaRevisionApplication revisionApplication = new WikipediaRevisionApplication();
@@ -44,20 +41,11 @@ public class WikipediaRevisionApplication { // extends Application
     private String getLatestRevisionOf(String articleTitle) throws IOException {
         URLBuilder urlBuilder = new URLBuilder();
         String urlString = urlBuilder.makeURL(articleTitle);
-        try {
-            URL url = new URL(urlString);
-            URLConnection connection = url.openConnection();
-            connection.setRequestProperty("User-Agent",
-                    "RevisionParser/0.1 (karogers3@bsu.edu; nplian@bsu.edu)");
-            InputStream inputStream = connection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader();
-            String dataString = inputStreamReader.makeString(inputStream);
-            RevisionParser parser = new RevisionParser();
-            List<Revision> revisionList = parser.parse(dataString);
-            return revisionList.get(0).getUsername();
-        } catch (MalformedURLException malformedURLException) {
-            throw new RuntimeException(malformedURLException);
-        }
+        WikiPageFetcher wikiPageFetcher = new WikiPageFetcher();
+        String dataString = wikiPageFetcher.getWikiPageInfo(urlString);
+        RevisionParser parser = new RevisionParser();
+        List<Revision> revisionList = parser.parse(dataString);
+        return revisionList.get(0).getUsername();
     }
 
 //    @Override
