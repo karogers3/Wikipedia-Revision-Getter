@@ -23,7 +23,7 @@ public class RevisionParser {
         return revisionList;
     }
 
-    private Date stringToDate(String stringDate) {
+    public Date stringToDate(String stringDate) {
         SimpleDateFormat timeStamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         Date date = new Date();
         try {
