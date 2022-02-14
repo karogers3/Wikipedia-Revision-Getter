@@ -1,3 +1,8 @@
-This application is to take a Wikpedia article name and then display the username and timestamp of anyone who recenly change or did revision on it.
-Up to 30 people at the time will be display and their timeStamp.
-By nplian and Karogers3
+# **twp-nplian-karogers3**
+
+This application takes a Wikipedia article title as an input and displays a summary (username and timestamp) of the 30 
+most recent revisions to said article. 
+
+Made for Dr. Paul Gestwicki's CS 222 class at Ball State University.
+
+By Paul Lian <nplian@bsu.edu> and Kameron Rogers <karogers3@bsu.edu>.
