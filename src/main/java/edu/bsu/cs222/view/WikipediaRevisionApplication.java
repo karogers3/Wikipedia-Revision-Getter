@@ -39,16 +39,31 @@ public class WikipediaRevisionApplication extends Application {
 
             executor.execute(()->{
                 String articleTitle = textField.getText();
-                RevisionParser parser = new RevisionParser();
-//                String result = parser.parse(articleTitle);
-                String result = "hi";
+                URLBuilder urlBuilder = new URLBuilder();
+                String wikiUrl = urlBuilder.makeURL(articleTitle);
+                WikiPageFetcher wikiPageFetcher = new WikiPageFetcher();
+                try {
+                    String wikiPage = wikiPageFetcher.getWikiPageInfo(wikiUrl);
+                    WikiPageAuthenticator wikiPageAuthenticator = new WikiPageAuthenticator();
+                    if (wikiPageAuthenticator.doesPageExist(wikiPage)) {
+                        RedirectParser redirectParser = new RedirectParser();
+                        if (redirectParser.doesPageRedirect(wikiPage)) {
+                            String redirectTo = redirectParser.redirectedTo(wikiPage);
+                        }
+                        RevisionParser revisionParser = new RevisionParser();
+                        List<Revision> revisionList = revisionParser.parse(wikiPage);
+                        RevisionListSummary revisionListSummary = new RevisionListSummary();
+                        StringBuilder summaryOfRevisions = revisionListSummary.summaryOfRevisions(revisionList);
+                    } else {
+                        StringBuilder summaryOfRevisions = new StringBuilder("Page does not exist");
+                        label.setText(summaryOfRevisions.toString());
+                    }
+                } catch (IOException e) {
+                    StringBuilder summaryOfRevisions = new StringBuilder("No internet connection.");
+                    label.setText(summaryOfRevisions.toString());
+                }
 
                 Platform.runLater(()->{
-                    if (result.equals("hi")){
-                        label.setText("Searching...");
-                    }else{
-                        label.setText("Error..");
-                    }
                     button.setDisable(false);
                     textField.setDisable(false);
                 });
