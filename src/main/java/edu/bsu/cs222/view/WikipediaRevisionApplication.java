@@ -13,21 +13,21 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class WikipediaRevisionApplication extends Application {
     private final Executor executor = Executors.newSingleThreadExecutor();
-    private final Label label = new Label();
+    private final Label label = new Label("Is it?");
     private final Button button = new Button("Search");
     private final TextField textField = new TextField();
+    private String display;
 
     //TODO: Make this a JavaFX GUI!
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setScene(new Scene(makeUI()));
         primaryStage.show();
     }
@@ -41,6 +41,7 @@ public class WikipediaRevisionApplication extends Application {
                 String articleTitle = textField.getText();
                 URLBuilder urlBuilder = new URLBuilder();
                 String wikiUrl = urlBuilder.makeURL(articleTitle);
+                StringBuilder stringBuilder = new StringBuilder();
                 WikiPageFetcher wikiPageFetcher = new WikiPageFetcher();
                 try {
                     String wikiPage = wikiPageFetcher.getWikiPageInfo(wikiUrl);
@@ -48,22 +49,24 @@ public class WikipediaRevisionApplication extends Application {
                     if (wikiPageAuthenticator.doesPageExist(wikiPage)) {
                         RedirectParser redirectParser = new RedirectParser();
                         if (redirectParser.doesPageRedirect(wikiPage)) {
-                            String redirectTo = redirectParser.redirectedTo(wikiPage);
+                            String redirectTo = "Redirected to " + redirectParser.redirectedTo(wikiPage) + "\n";
+                            stringBuilder.append(redirectTo);
                         }
                         RevisionParser revisionParser = new RevisionParser();
                         List<Revision> revisionList = revisionParser.parse(wikiPage);
                         RevisionListSummary revisionListSummary = new RevisionListSummary();
                         StringBuilder summaryOfRevisions = revisionListSummary.summaryOfRevisions(revisionList);
+                        stringBuilder.append(summaryOfRevisions);
+                        this.display = stringBuilder.toString();
                     } else {
-                        StringBuilder summaryOfRevisions = new StringBuilder("Page does not exist");
-                        label.setText(summaryOfRevisions.toString());
+                        this.display = "Page does not exist.";
                     }
                 } catch (IOException e) {
-                    StringBuilder summaryOfRevisions = new StringBuilder("No internet connection.");
-                    label.setText(summaryOfRevisions.toString());
+                    this.display = "Connection issue. Wikipedia servers may be down.";
                 }
 
                 Platform.runLater(()->{
+                    label.setText(display);
                     button.setDisable(false);
                     textField.setDisable(false);
                 });
@@ -72,6 +75,7 @@ public class WikipediaRevisionApplication extends Application {
         });
 
         VBox vbox = new VBox();
+        vbox.setPrefSize(350, 600);
         vbox.getChildren().addAll(
                 textField,
                 button,
@@ -79,31 +83,4 @@ public class WikipediaRevisionApplication extends Application {
         );
         return vbox;
     }
-
-
-
-// The following code can be used to test with scanner:
-
-//    public static void main(String[] args) {
-//        WikipediaRevisionApplication revisionApplication = new WikipediaRevisionApplication();
-//        Scanner scanner = new Scanner(System.in);
-//        String line = scanner.nextLine();
-//        try {
-//            StringBuilder revisions = revisionApplication.getLatestRevisionOf(line);
-//            System.out.println(revisions);
-//        } catch (IOException ioException) {
-//            System.err.println("Network connection Problem: " + ioException.getMessage());
-//        }
-//    }
-//
-//    private StringBuilder getLatestRevisionOf(String articleTitle) throws IOException {
-//        URLBuilder urlBuilder = new URLBuilder();
-//        String urlString = urlBuilder.makeURL(articleTitle);
-//        WikiPageFetcher wikiPageFetcher = new WikiPageFetcher();
-//        String dataString = wikiPageFetcher.getWikiPageInfo(urlString);
-//        RevisionParser parser = new RevisionParser();
-//        List<Revision> revisionList = parser.parse(dataString);
-//        RevisionListSummary revisionListSummary = new RevisionListSummary();
-//        return revisionListSummary.summaryOfRevisions(revisionList);
-//    }
 }
