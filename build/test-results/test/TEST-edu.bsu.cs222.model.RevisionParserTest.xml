@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.bsu.cs222.model.RevisionParserTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-02-14T05:04:21" hostname="Rachels-MacBook-Air.local" time="0.092">
+  <properties/>
+  <testcase name="testGetNameOfFirstRevision()" classname="edu.bsu.cs222.model.RevisionParserTest" time="0.007"/>
+  <testcase name="testGetTimeStampOfLastRevision()" classname="edu.bsu.cs222.model.RevisionParserTest" time="0.001"/>
+  <testcase name="testGetNameOfLastRevision()" classname="edu.bsu.cs222.model.RevisionParserTest" time="0.001"/>
+  <testcase name="testGetTimeStampOfFirstRevision()" classname="edu.bsu.cs222.model.RevisionParserTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
