@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.bsu.cs222.model.WikiPageAuthenticatorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-02-14T05:04:20" hostname="Rachels-MacBook-Air.local" time="1.543">
-  <properties/>
-  <testcase name="doesPageExistTestFalse()" classname="edu.bsu.cs222.model.WikiPageAuthenticatorTest" time="0.228"/>
-  <testcase name="doesPageExistTestTrue()" classname="edu.bsu.cs222.model.WikiPageAuthenticatorTest" time="1.308"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
