@@ -27,7 +27,7 @@ public class WikipediaRevisionApplication extends Application {
 
 
 
-        
+
 
 
     @Override
@@ -36,6 +36,10 @@ public class WikipediaRevisionApplication extends Application {
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 450, 500);
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(X -> {
+            Platform.exit();
+            System.exit(0);
+        });
         primaryStage.setTitle("Wiki");
         ScrollPane scroll = new ScrollPane();
         root.setCenter(scroll);
@@ -87,8 +91,6 @@ public class WikipediaRevisionApplication extends Application {
 
             });
         });
-
-
         VBox vbox = new VBox();
         vbox.getChildren().addAll(
                 textField,
